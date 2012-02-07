@@ -10,7 +10,7 @@ Please visit [imanpage.com](http://imanpage.com) for more details.
 
 ## Installation ##
 
-Put the AnchovyCURLBundle(https://github.com/Iman/CURLBundle) library into the deps file:
+Put the AnchovyCURLBundle (https://github.com/Iman/CURLBundle) library into the deps file:
 
 	[AnchovyCURLBundle]
 		git=https://github.com/Iman/AnchovyCURLBundle.git
@@ -34,7 +34,7 @@ Add the AnchovyCURLBundle to your application's kernel:
             ...
         );
 
-## Usage ##		
+## Usage ##	
 	   
 	Simple call: 
 	
@@ -67,7 +67,7 @@ Add the AnchovyCURLBundle to your application's kernel:
 
 If you want to keep up with updates, [follow me on twitter](http://twitter.com/imanpage).
 
-## Bug tracking ## 
+## Bug tracking ##
 
 This bundle uses [GitHub issues](https://github.com/Iman/CURLBundle/issues).
 If you have found bug, please create an issue.

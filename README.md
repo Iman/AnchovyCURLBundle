@@ -8,6 +8,12 @@ CURLBundle is open source and free to use, I would however be extremely grateful
 
 Please visit [imanpage.com](http://imanpage.com) for more details.
 
+
+## AnchovyCURLBundle  Continuous Integration Build Status ##
+
+[![Build Status](https://secure.travis-ci.org/Iman/AnchovyCURLBundle.png)](http://travis-ci.org/Iman/AnchovyCURLBundle)
+
+
 ## Installation ##
 
 Put the AnchovyCURLBundle (http://github.com/Iman/AnchovyCURLBundle.git) library into the deps file:

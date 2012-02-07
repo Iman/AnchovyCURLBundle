@@ -34,7 +34,7 @@ Add the AnchovyCURLBundle to your application's kernel:
             ...
         );
 
-## Usage ##	
+## Usage ##
 	   
 	Simple call: 
 	

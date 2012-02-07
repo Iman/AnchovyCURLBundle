@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit
+    backupGlobals               = "false"
+    backupStaticAttributes      = "false"
+    colors                      = "true"
+    convertErrorsToExceptions   = "true"
+    convertNoticesToExceptions  = "true"
+    convertWarningsToExceptions = "true"
+    processIsolation            = "false"
+    stopOnFailure               = "true"
+    syntaxCheck                 = "false"
+    bootstrap                   = "./../../../../app/bootstrap.php.cache" >
+
+    <testsuites>
+        <testsuite name="CURLBundle test suite">
+            <directory>./Tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <server name="KERNEL_DIR" value="./../../../../app/" />
+    </php>
+
+    <filter>
+        <blacklist>
+            <directory suffix=".php">./Anchovy/CURLBundle/Tests/Functional/Controller</directory>
+            <exclude>
+                <file>./Anchovy/CURLBundle/Tests/Functional/Controller/CurlControllerTest.php</file>
+            </exclude>
+        </blacklist>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./Resources</directory>
+                <directory>./DependencyInjection</directory>
+                <file>./AnchovyCURLBundle.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

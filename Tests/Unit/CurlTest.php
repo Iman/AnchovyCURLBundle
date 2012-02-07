@@ -1,0 +1,217 @@
+<?php
+
+/*
+ * This file is part of the CURLBundle package.
+ *
+ * (c)  Iman Samizadeh <https://github.com/Iman/CURLBundle>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package       CURLBundle
+ * @author        Iman Samizadeh <iman@imanpage.com>  http://imanpage.com
+ */
+
+namespace Anchovy\CURLBundle\Test\Unit;
+
+use Anchovy\CURLBundle\CURL\Curl;
+
+class CurlTest extends \PHPUnit_Framework_TestCase {
+
+    private $curl;
+    private $mockUrl = 'http://foo.com';
+    private $mockInfo = array(
+        'url' => 'http://boo.net/',
+        'content_type' => 'text/html',
+        'http_code' => 200,
+        'header_size' => 284,
+        'request_size' => 48,
+        'filetime' => '-1',
+        'ssl_verify_result' => 0,
+        'redirect_count' => 0,
+        'total_time' => 0.920836,
+        'namelookup_time' => 0.093214,
+        'connect_time' => 0.093576,
+        'pretransfer_time' => 0.093599,
+        'size_upload' => 0,
+        'size_download' => 177,
+        'speed_download' => 192,
+        'speed_upload' => 0,
+        'download_content_length' => 177,
+        'upload_content_length' => 0,
+        'starttransfer_time' => 0.863111,
+        'redirect_time' => 0,
+        'certinfo' => Array(),
+    );
+    private $simpleHtmplFixture;
+
+    protected function setUp() {
+
+        $this->simpleHtmplFixture = file_get_contents(__DIR__ . '/../Fixtures/simpleHtml.html');
+        $this->curl = new Curl();
+    }
+
+    public function testSetURL() {
+
+        $this->curl->setUrl($this->mockUrl);
+
+        $prob = new \ReflectionProperty($this->curl, 'url');
+        $prob->setAccessible(true);
+        $content = $prob->getValue($this->curl);
+
+        $this->assertEquals($content, $this->mockUrl);
+    }
+
+    public function testGetUrl() {
+
+        $prob = new \ReflectionProperty($this->curl, 'url');
+        $prob->setAccessible(true);
+        $prob->setValue($this->curl, $this->mockUrl);
+
+        $method = new \ReflectionMethod($this->curl, 'getURL');
+        $method->setAccessible(true);
+        $content = $method->invoke($this->curl);
+
+        $this->assertEquals($content, $this->mockUrl);
+    }
+
+    public function testExecute() {
+
+        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl');
+        $stub->expects($this->any())
+                ->method('execute')
+                ->will($this->returnValue($this->simpleHtmplFixture));
+
+        $this->assertEquals($this->simpleHtmplFixture, $stub->execute());
+    }
+
+    public function testSetMethod() {
+
+        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl');
+
+        foreach (array('POST', 'PUT', 'DELETE') as $key => $val) {
+            $stub->expects($this->any())
+                    ->method('setMethod')
+                    ->will($this->returnValue($this->curl->setmethod($key, array('Filed' => 'Value'))));
+
+            $this->assertInternalType('object', $stub->setMethod($val, array('Filed' => 'Value')));
+        }
+    }
+
+    public function testGetInfo() {
+
+        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl');
+        $stub->expects($this->once())
+                ->method('getInfo')
+                ->will($this->returnValue($this->curl->getInfo()));
+
+        $this->assertInternalType('array', $stub->getInfo());
+    }
+
+    public function testGetError() {
+
+        $curl = new Curl();
+
+        $error = $curl->setURL(null)->execute();
+
+        $this->ArrayHasKey(array('error' => null, 'error_no' => null), $error);
+        $this->assertEquals('<url> malformed', $error['error']);
+    }
+
+    public function testGetErrorReturnFalse() {
+
+        $method = new \ReflectionMethod($this->curl, 'getError');
+        $method->setAccessible(true);
+        $content = $method->invoke($this->curl);
+
+        $this->assertFalse($content);
+    }
+
+    public function testSetOption() {
+
+        $this->curl->setOption('CURLOPT_VERBOSE', True);
+
+        $method = new \ReflectionMethod($this->curl, 'getOptions');
+        $method->setAccessible(true);
+        $content = $method->invoke($this->curl);
+
+        $this->assertContains(CURLOPT_VERBOSE, $content);
+    }
+
+    public function testSetOptions() {
+
+        $options = array(
+            'CURLOPT_VERBOSE' => True,
+            'CURLOPT_NOBODY' => True,
+            'CURLOPT_BINARYTRANSFER' => false
+        );
+
+        $this->curl->setOptions($options);
+
+        $method = new \ReflectionMethod($this->curl, 'getOptions');
+        $method->setAccessible(true);
+
+        $content = $method->invoke($this->curl);
+
+        $this->assertContains(array(CURLOPT_VERBOSE, CURLOPT_NOBODY, CURLOPT_BINARYTRANSFER), $content);
+    }
+
+    public function testOverrideOptions() {
+
+        $options = array(
+            'CURLOPT_RETURNTRANSFER' => True,
+            'CURLOPT_HTTPHEADER' => array("Expect:Dummy")
+        );
+
+        $this->curl->setOptions($options);
+
+        $method = new \ReflectionMethod($this->curl, 'getOptions');
+        $method->setAccessible(true);
+
+        $content = $method->invoke($this->curl);
+
+        $_curl = new Curl();
+        $_curl->setURL('http://dummy.org');
+
+        $actual = $method->invoke($_curl);
+
+        $this->assertEquals($content[CURLOPT_RETURNTRANSFER], True);
+        $this->assertEquals($content[CURLOPT_HTTPHEADER][0], "Expect:Dummy");
+    }
+
+    public function testOverrideOption() {
+
+        $this->curl->setOption('CURLOPT_HTTPHEADER', array("Expect:Bar"));
+
+        $method = new \ReflectionMethod($this->curl, 'getOptions');
+        $method->setAccessible(true);
+        $content = $method->invoke($this->curl);
+
+        $_curl = new Curl();
+        $_curl->setURL('http://bar_foo.com');
+
+        $actual = $method->invoke($_curl);
+
+        $this->assertNotEquals($content[CURLOPT_URL], $actual[CURLOPT_URL]);
+
+        $this->assertEquals("Expect:Bar", $content[CURLOPT_HTTPHEADER][0]);
+    }
+
+    public function testIsUrlHttps() {
+        $method = new \ReflectionMethod($this->curl, 'isUrlHttps');
+        $method->setAccessible(true);
+
+        $withoutSSL = $method->invokeArgs($this->curl, array('http://foo.net/text.php?id=124'));
+        $withSSL = $method->invokeArgs($this->curl, array('https://boo.com/dummy/123'));
+
+        $this->assertEquals($withoutSSL, 0);
+        $this->assertEquals($withSSL, 1);
+    }
+
+    protected function tearDown() {
+        $this->curl->__destruct();
+    }
+
+}
+
+?>

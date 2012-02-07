@@ -15,7 +15,7 @@
 
     <testsuites>
         <testsuite name="CURLBundle test suite">
-            <directory>./Tests/Unit</directory>
+            <directory>./Tests</directory>
         </testsuite>
     </testsuites>
 

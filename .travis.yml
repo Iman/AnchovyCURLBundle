@@ -16,5 +16,6 @@ env:
 script: phpunit --coverage-text
 
 notifications:
-  email: iman@imanpage.com
+  email:
+    - iman@imanpage.com
 

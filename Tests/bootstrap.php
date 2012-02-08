@@ -16,28 +16,28 @@
 
 
 // Symfony dependencies
-require_once VENDOR_DIR.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+require_once $VENDOR_DIR.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
-    'Symfony'          => array(VENDOR_DIR.'/symfony/src'),
-    'Doctrine\\Common' => array(VENDOR_DIR.'/doctrine-common/lib'),
-    'Doctrine\\DBAL'   => array(VENDOR_DIR.'/doctrine-dbal/lib'),
-    'Doctrine'         => array(VENDOR_DIR.'/doctrine/lib'),
-    'Anchovy' => array(VENDOR_DIR.'/bundles'),
+    'Symfony'          => array($VENDOR_DIR.'/symfony/src'),
+    'Doctrine\\Common' => array($VENDOR_DIR.'/doctrine-common/lib'),
+    'Doctrine\\DBAL'   => array($VENDOR_DIR.'/doctrine-dbal/lib'),
+    'Doctrine'         => array($VENDOR_DIR.'/doctrine/lib'),
+    'Anchovy' => array($VENDOR_DIR.'/bundles'),
 ));
 $loader->register();
 
 // Swiftmailer autoloader
-require_once VENDOR_DIR.'/swiftmailer/lib/classes/Swift.php';
-Swift::registerAutoload(VENDOR_DIR.'/swiftmailer/lib/swift_init.php');
+require_once $VENDOR_DIR.'/swiftmailer/lib/classes/Swift.php';
+Swift::registerAutoload($VENDOR_DIR.'/swiftmailer/lib/swift_init.php');
 
 
 // Proxy object bootstrap
-require_once VENDOR_DIR . '/proxy-object/bootstrap.php';
+require_once $VENDOR_DIR . '/proxy-object/bootstrap.php';
 
 // Mockery class loader
-set_include_path(get_include_path() . PATH_SEPARATOR . VENDOR_DIR . '/mockery/library/');
+set_include_path(get_include_path() . PATH_SEPARATOR . $VENDOR_DIR . '/mockery/library/');
 require_once('Mockery/Loader.php');
 $loader = new \Mockery\Loader;
 $loader->register();

@@ -35,6 +35,8 @@
             <exclude>
                 <directory>./Resources</directory>
                 <directory>./DependencyInjection</directory>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
                 <file>./AnchovyCURLBundle.php</file>
             </exclude>
         </whitelist>

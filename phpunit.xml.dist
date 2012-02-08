@@ -11,7 +11,7 @@
     processIsolation            = "false"
     stopOnFailure               = "true"
     syntaxCheck                 = "false"
-    bootstrap                   = "./../../../../app/bootstrap.php.cache" >
+    bootstrap                   = "./Tests/bootstrap.php" >
 
     <testsuites>
         <testsuite name="CURLBundle test suite">

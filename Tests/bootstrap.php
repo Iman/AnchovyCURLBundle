@@ -16,44 +16,24 @@
 
 
 //borrowed from FOSUserBundle
-$vendorDir = __DIR__ . '/../vendor';
-require_once $vendorDir . '/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+
+$vendorDirectory = realpath(__DIR__ . '/../vendor');
+
+require_once $vendorDirectory . '/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
-$loader->registerNamespaces(array(
-    'Symfony' => array($vendorDir . '/symfony/src', $vendorDir . '/bundles'),
-    'Doctrine\\Common' => $vendorDir . '/doctrine-common/lib',
-    'Doctrine\\DBAL' => $vendorDir . '/doctrine-dbal/lib',
-    'Doctrine\\ODM\\MongoDB' => $vendorDir . '/doctrine-mongodb-odm/lib',
-    'Doctrine\\MongoDB' => $vendorDir . '/doctrine-mongodb/lib',
-    'Doctrine\\ODM\\CouchDB' => $vendorDir . '/doctrine-couchdb/lib',
-    'Doctrine\\CouchDB' => $vendorDir . '/doctrine-couchdb/lib',
-    'Doctrine' => $vendorDir . '/doctrine/lib',
-));
-$loader->registerPrefixes(array(
-    'Twig_' => $vendorDir . '/twig/lib',
-));
+$loader->registerNamespace('Symfony', array($vendorDirectory . '/symfony/src', $vendorDirectory . '/bundles'));
 $loader->register();
 
-$swiftAutoloader = $vendorDir . '/swiftmailer/lib/classes/Swift.php';
-if (file_exists($swiftAutoloader)) {
-    require_once $swiftAutoloader;
-    Swift::registerAutoload($vendorDir . '/swiftmailer/lib/swift_init.php');
-}
-
-set_include_path($vendorDir . '/phing/classes' . PATH_SEPARATOR . get_include_path());
-
-
 spl_autoload_register(function($class) {
-            if (0 === strpos($class, 'Anchovy\\CURLBundle\\')) {
-                $path = __DIR__ . '/../' . implode('/', array_slice(explode('\\', $class), 2)) . '.php';
-                if (!stream_resolve_include_path($path)) {
+            if (strpos($class, 'Anchovy\\CURLBundle\\') === 0) {
+                $file = __DIR__ . '/../' . implode('/', array_slice(explode('\\', $class), 3)) . '.php';
+                if (file_exists($file) === false) {
                     return false;
                 }
-                require_once $path;
-                return true;
+                require_once $file;
             }
         });
 ?>

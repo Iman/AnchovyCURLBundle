@@ -4,9 +4,11 @@ php:
   - 5.3
   - 5.4
 
-before_script:
+before_install:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install
+
+before_script:
   - php vendor/vendors.php
 
 env:

@@ -16,24 +16,20 @@
 
 
 //borrowed from FOSUserBundle
-
-$vendorDirectory = realpath(__DIR__ . '/../vendor');
-
-require_once $vendorDirectory . '/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
-
-use Symfony\Component\ClassLoader\UniversalClassLoader;
-
-$loader = new UniversalClassLoader();
-$loader->registerNamespace('Symfony', array($vendorDirectory . '/symfony/src', $vendorDirectory . '/bundles'));
-$loader->register();
+if (file_exists($file = __DIR__ . '/../vendor/.composer/autoload.php')) {
+    $autoload = require_once $file;
+} else {
+    throw new RuntimeException('Install dependencies to run test suite.');
+}
 
 spl_autoload_register(function($class) {
-            if (strpos($class, 'Anchovy\\CURLBundle\\') === 0) {
-                $file = __DIR__ . '/../' . implode('/', array_slice(explode('\\', $class), 3)) . '.php';
-                if (file_exists($file) === false) {
+            if (0 === strpos($class, 'Anchovy\\CURLBundle\\')) {
+                $path = __DIR__ . '/../' . implode('/', array_slice(explode('\\', $class), 2)) . '.php';
+                if (!stream_resolve_include_path($path)) {
                     return false;
                 }
-                require_once $file;
+                require_once $path;
+                return true;
             }
         });
 ?>

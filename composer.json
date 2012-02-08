@@ -1,22 +1,28 @@
 {
-    "name": "Anchovy/CURLBundle",
-    "type": "symfony-bundle",
-    "description": "This bundle provides basic interfaces service for native cURL php wrapper.",
-    "keywords": ["cURL", "PHP cURL", "Symfony2 cURL"],
-    "homepage": "http://imanpage.org",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Iman Samizadeh",
-            "email": "iman@imanpage.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.2",
-        "symfony/symfony": "2.*"
-    },
-    "autoload": {
-        "psr-0": { "Anchovy\\CURLBundle": "" }
-    },
-    "target-dir": "Anchovy/CURLBundle"
+   "name":"Anchovy/CURLBundle",
+   "type":"symfony-bundle",
+   "description":"This bundle provides basic interfaces service for native cURL php wrapper.",
+   "keywords":[
+      "cURL",
+      "PHP cURL",
+      "Symfony2 cURL"
+   ],
+   "homepage":"http://imanpage.com",
+   "license":"MIT",
+   "authors":[
+      {
+         "name":"Iman Samizadeh",
+         "email":"iman@imanpage.com"
+      }
+   ],
+   "require":{
+      "php":">=5.3.2",
+      "symfony/symfony":"2.*"
+   },
+   "autoload":{
+      "psr-0":{
+         "Anchovy\\CURLBundle":""
+      }
+   },
+   "target-dir":"Anchovy/CURLBundle"
 }

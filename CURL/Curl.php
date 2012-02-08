@@ -21,6 +21,7 @@ class Curl extends AbstractCurl {
     protected $url;
     private $options;
     private $info = array();
+    private $error = array();
 
     public function __construct() {
 
@@ -43,21 +44,16 @@ class Curl extends AbstractCurl {
 
     public function execute() {
 
-        try {
-            curl_setopt_array(self::$instance, self::getOptions());
+        curl_setopt_array(self::$instance, self::getOptions());
 
-            if (curl_exec(self::$instance)) {
-
-                $this->info = curl_getinfo(self::$instance);
-
-                return $this;
-            } else {
-
-                return self::getError();
-            }
-        } catch (Exception $exc) {
-            throw $exc;
+        if (!curl_exec(self::$instance)) {
+            $error = self::getError();
+            throw new \InvalidArgumentException("Error: {$error['error']} and the Error no is: {$error['error_no']} ");
         }
+
+        $this->info = curl_getinfo(self::$instance);
+        
+        return $this;
     }
 
     public function setOption($key, $value) {

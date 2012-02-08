@@ -24,20 +24,17 @@
     </php>
 
     <filter>
-        <blacklist>
-            <directory suffix=".php">./Anchovy/CURLBundle/Tests/Functional/Controller</directory>
-            <exclude>
-                <file>./Anchovy/CURLBundle/Tests/Functional/Controller/CurlControllerTest.php</file>
-            </exclude>
-        </blacklist>
+
         <whitelist>
             <directory>./</directory>
             <exclude>
+                <directory>./Controller</directory>
                 <directory>./Resources</directory>
                 <directory>./DependencyInjection</directory>
                 <directory>./Tests</directory>
                 <directory>./vendor</directory>
                 <file>./AnchovyCURLBundle.php</file>
+                <file>./Tests/bootstrap.php</file>
             </exclude>
         </whitelist>
     </filter>

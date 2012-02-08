@@ -52,7 +52,7 @@ Add the AnchovyCURLBundle to your application's kernel:
 
 	Adding cURL option:
 
-            $this->get('anchovy.curl')->setURL('http://localhost')->setOption('CURLOPT_NOBODY', TRUE)->execute();
+            $this->get('anchovy.curl')->setURL('http://localhost')->setOption('CURLOPT_NOBODY', FALSE)->execute();
 
 	Setting cURL opttions as array:
 
@@ -67,7 +67,9 @@ Add the AnchovyCURLBundle to your application's kernel:
 
 	Getting cURL info:
 
-	        $this->get('anchovy.curl')->setURL('http://localhost')->setOption('CURLOPT_NOBODY', TRUE)->execute()->getInfo();
+	     $info = $this->get('anchovy.curl')->setURL('http://localhost')->setOption('CURLOPT_NOBODY', TRUE)->execute()->getInfo();
+
+             var_dump($info);
 
 ## Test ##
 

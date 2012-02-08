@@ -85,6 +85,32 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($this->simpleHtmplFixture, $stub->execute());
     }
 
+    public function testGetInfoWithExecute() {
+
+
+        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('execute', 'getInfo'), array(), '', FALSE);
+
+        //To stub channing method
+        $stub->expects($this->any())->method('getInfo')
+                ->will($this->returnValue($this->mockInfo));
+
+        $stub->expects($this->any())->method($this->anything())
+                ->will($this->returnValue($stub));
+
+        $this->assertEquals($this->mockInfo, $stub->execute()->getInfo());
+    }
+
+    public function testExecuteAsObject() {
+
+
+        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('execute'), array(), '', FALSE);
+
+        $stub->expects($this->any())->method($this->anything())
+                ->will($this->returnValue($stub));
+
+        $this->assertInternalType('object', $stub->execute());
+    }
+
     public function testSetMethod() {
 
         $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl');
@@ -108,14 +134,24 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $this->assertInternalType('array', $stub->getInfo());
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage Error: <url> malformed and the Error no is: 3
+     */
     public function testGetError() {
 
         $curl = new Curl();
+        $curl->setURL(null)->execute();
+    }
 
-        $error = $curl->setURL(null)->execute();
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage Error: <url> malformed and the Error no is: 3
+     */
+    public function testChainedGetInfoWithError() {
 
-        $this->ArrayHasKey(array('error' => null, 'error_no' => null), $error);
-        $this->assertEquals('<url> malformed', $error['error']);
+        $curl = new Curl();
+        $curl->setURL(null)->execute()->getInfo();
     }
 
     public function testGetErrorReturnFalse() {

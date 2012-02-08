@@ -11,26 +11,25 @@
  * @package       Anchovy
  * @subpackage    CURLBundle
  * @author        Iman Samizadeh <iman@imanpage.com>  http://imanpage.com
- * @credit        http://pooteeweet.org/blog/2046 And
+ * @credit        http://pooteeweet.org/blog/2046 And https://github.com/raulfraile/LadybugBundle
  */
 
-$vendorDirectory = realpath(__DIR__ . '/../vendor');
+if (file_exists($file = __DIR__ . '/../vendor/.composer/autoload.php')) {
+    $autoload = require_once $file;
+} else {
+    throw new RuntimeException('Install dependencies to run test suite.');
+}
 
-require_once $vendorDirectory . '/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+spl_autoload_register(function($class)
+{
+    if (0 === strpos($class, 'Anchovy\\CURLBundle\\')) {
+        $path = __DIR__ . '/../' . implode('/', array_slice(explode('\\', $class), 3)) . '.php';
 
-use Symfony\Component\ClassLoader\UniversalClassLoader;
-
-$loader = new UniversalClassLoader();
-$loader->registerNamespace('Symfony', array($vendorDirectory . '/symfony/src', $vendorDirectory . '/bundles'));
-$loader->register();
-
-spl_autoload_register(function($class) {
-            if (strpos($class, 'Anchovy\\CURLBundle\\') === 0) {
-                $file = __DIR__ . '/../' . implode('/', array_slice(explode('\\', $class), 3)) . '.php';
-                if (file_exists($file) === false) {
-                    return false;
-                }
-                require_once $file;
-            }
-        });
-?>
+        if (!stream_resolve_include_path($path)) {
+            return false;
+        }
+        require_once $path;
+        return true;
+    }
+});
+        ?>

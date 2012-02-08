@@ -7,6 +7,7 @@ php:
 before_script:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install
+  - php vendor/vendors.php
 
 env:
   - SYMFONY_VERSION=v2.0.9

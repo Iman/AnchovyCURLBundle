@@ -11,47 +11,49 @@
  * @package       Anchovy
  * @subpackage    CURLBundle
  * @author        Iman Samizadeh <iman@imanpage.com>  http://imanpage.com
- * @credit        http://pooteeweet.org/blog/2046 And https://github.com/raulfraile/LadybugBundle And https://raw.github.com/wowo/WowoNewsletterBundle
+ * @credit        http://pooteeweet.org/blog/2046 And https://github.com/raulfraile/LadybugBundle And https://raw.github.com/wowo/WowoNewsletterBundle/master/Tes
  */
 
 
-// Symfony dependencies
-require_once $VENDOR_DIR.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+//borrowed from FOSUserBundle
+$vendorDir = __DIR__ . '/../vendor';
+require_once $vendorDir . '/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+
 use Symfony\Component\ClassLoader\UniversalClassLoader;
+
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
-    'Symfony'          => array($VENDOR_DIR.'/symfony/src'),
-    'Doctrine\\Common' => array($VENDOR_DIR.'/doctrine-common/lib'),
-    'Doctrine\\DBAL'   => array($VENDOR_DIR.'/doctrine-dbal/lib'),
-    'Doctrine'         => array($VENDOR_DIR.'/doctrine/lib'),
-    'Anchovy' => array($VENDOR_DIR.'/bundles'),
+    'Symfony' => array($vendorDir . '/symfony/src', $vendorDir . '/bundles'),
+    'Doctrine\\Common' => $vendorDir . '/doctrine-common/lib',
+    'Doctrine\\DBAL' => $vendorDir . '/doctrine-dbal/lib',
+    'Doctrine\\ODM\\MongoDB' => $vendorDir . '/doctrine-mongodb-odm/lib',
+    'Doctrine\\MongoDB' => $vendorDir . '/doctrine-mongodb/lib',
+    'Doctrine\\ODM\\CouchDB' => $vendorDir . '/doctrine-couchdb/lib',
+    'Doctrine\\CouchDB' => $vendorDir . '/doctrine-couchdb/lib',
+    'Doctrine' => $vendorDir . '/doctrine/lib',
+));
+$loader->registerPrefixes(array(
+    'Twig_' => $vendorDir . '/twig/lib',
 ));
 $loader->register();
 
-// Swiftmailer autoloader
-require_once $VENDOR_DIR.'/swiftmailer/lib/classes/Swift.php';
-Swift::registerAutoload($VENDOR_DIR.'/swiftmailer/lib/swift_init.php');
+$swiftAutoloader = $vendorDir . '/swiftmailer/lib/classes/Swift.php';
+if (file_exists($swiftAutoloader)) {
+    require_once $swiftAutoloader;
+    Swift::registerAutoload($vendorDir . '/swiftmailer/lib/swift_init.php');
+}
+
+set_include_path($vendorDir . '/phing/classes' . PATH_SEPARATOR . get_include_path());
 
 
-// Proxy object bootstrap
-require_once $VENDOR_DIR . '/proxy-object/bootstrap.php';
-
-// Mockery class loader
-set_include_path(get_include_path() . PATH_SEPARATOR . $VENDOR_DIR . '/mockery/library/');
-require_once('Mockery/Loader.php');
-$loader = new \Mockery\Loader;
-$loader->register();
-
-// Some nifty namespaces taking care of (borrowed from FOSUserBundle)
 spl_autoload_register(function($class) {
-    if (0 === strpos($class, 'Anchovy\\CURLBundle')) {
-        $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 3)).'.php';
-        if (!stream_resolve_include_path($path)) {
-            return false;
-        }
-        require_once $path;
-        return true;
-    }
-});
-
-        ?>
+            if (0 === strpos($class, 'Anchovy\\CURLBundle\\')) {
+                $path = __DIR__ . '/../' . implode('/', array_slice(explode('\\', $class), 2)) . '.php';
+                if (!stream_resolve_include_path($path)) {
+                    return false;
+                }
+                require_once $path;
+                return true;
+            }
+        });
+?>

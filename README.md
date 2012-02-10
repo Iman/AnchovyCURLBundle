@@ -1,7 +1,5 @@
 # AnchovyCURLBundle #
 
-## About ##
-
 This bundle provides basic interfaces service for cURL php wrapper. CURLBundle is simple, basic and allow developer to extend it to another level on top of Symfony2.
 
 CURLBundle is open source and free to use, I would however be extremely grateful if you can provided constructive feedback from your experience of using it to me via my GitHub account: iman
@@ -68,7 +66,6 @@ Add the AnchovyCURLBundle to your application's kernel:
 	Getting cURL info:
 
 	     $info = $this->get('anchovy.curl')->setURL('http://localhost')->setOption('CURLOPT_NOBODY', TRUE)->execute()->getInfo();
-
              var_dump($info);
 
 ## Test ##

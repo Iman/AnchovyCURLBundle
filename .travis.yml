@@ -13,7 +13,7 @@ env:
   - SYMFONY_VERSION=origin/2.0
   - SYMFONY_VERSION=origin/master
 
-script: phpunit --coverage-text
+script: phpunit
 
 notifications:
   email:

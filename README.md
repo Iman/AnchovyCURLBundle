@@ -66,7 +66,9 @@ Add the AnchovyCURLBundle to your application's kernel:
 	Getting cURL info:
 
 	     $info = $this->get('anchovy.curl')->setURL('http://localhost')->setOption('CURLOPT_NOBODY', TRUE)->execute()->getInfo();
-             var_dump($info);
+
+        //Dump data
+	var_dump($info);
 
 ## Test ##
 

@@ -1,7 +1,7 @@
 language: php
 
 php:
-  - 5.3
+#  - 5.3
   - 5.4
 
 before_script:
@@ -13,8 +13,9 @@ env:
   - SYMFONY_VERSION=origin/2.0
   - SYMFONY_VERSION=origin/master
 
-script: phpunit --coverage-text
+script: phpunit
 
 notifications:
-  email: iman@imanpage.com
+  email:
+    - iman@imanpage.com
 

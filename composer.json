@@ -1,19 +1,19 @@
 {
    "name":"Anchovy/CURLBundle",
    "type":"symfony-bundle",
-   "description":"This bundle provides basic interfaces service for native cURL php wrapper.",
+   "description":"This bundle provides a simple OOP interfaces for cURL php wrapper.",
    "keywords":[
       "cURL",
       "PHP cURL",
       "Symfony2 cURL"
    ],
-   "homepage":"https://github.com/Iman/AnchovyCURLBundle",
+   "repository":"https://github.com/Iman/AnchovyCURLBundle",
+   "homepage":"http://www.imanpage.com/",
    "license":"MIT",
    "authors":[
       {
          "name":"Iman Samizadeh",
-         "email":"iman@imanpage.com",
-         "homepage":"http://www.imanpage.com/"
+         "email":"iman@imanpage.com"
       }
    ],
    "require":{

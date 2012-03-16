@@ -17,13 +17,13 @@ namespace Anchovy\CURLBundle\CURL;
 
 abstract class AbstractCurl {
 
-    protected static $curlReturnTransfer = false;
-    protected static $curlFollowLocation = True;
+    protected static $curlReturnTransfer = TRUE;
+    protected static $curlFollowLocation = TRUE;
     protected static $curlmaxRedirects = 5;
     protected static $curlTimeout = 25;
     protected static $curlConnectTTimeout = 25;
     protected static $curlHTTPHeader = array("Expect:");
-    protected static $curlCRLF = true;
+    protected static $curlCRLF = TRUE;
     protected static $curlSSLVersion = 3;
     protected static $curlSSLVerify = 0;
     private $options;

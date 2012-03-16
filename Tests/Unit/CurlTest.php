@@ -97,7 +97,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $stub->expects($this->any())->method($this->anything())
                 ->will($this->returnValue($stub));
 
-        $this->assertEquals($this->mockInfo, $stub->execute()->getInfo());
+        $this->assertEquals($this->mockInfo, $stub->getInfo());
     }
 
     public function testExecuteAsObject() {
@@ -129,9 +129,9 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl');
         $stub->expects($this->once())
                 ->method('getInfo')
-                ->will($this->returnValue($this->curl->getInfo()));
+                ->will($this->returnValue($this->mockInfo));
 
-        $this->assertInternalType('array', $stub->getInfo());
+        $this->assertEquals($this->mockInfo, $stub->getInfo());
     }
 
     /**
@@ -151,7 +151,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
     public function testChainedGetInfoWithError() {
 
         $curl = new Curl();
-        $curl->setURL(null)->execute()->getInfo();
+        $curl->setURL(null)->getInfo();
     }
 
     public function testGetErrorReturnFalse() {

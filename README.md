@@ -20,6 +20,13 @@ Put the AnchovyCURLBundle (http://github.com/Iman/AnchovyCURLBundle.git) library
 		git=https://github.com/Iman/AnchovyCURLBundle.git
 		target=/bundles/Anchovy/CURLBundle
 
+## Using submodules ##
+
+ If you prefer instead to use git submodules, the run the following:
+
+        $ git submodule add https://github.com/Iman/AnchovyCURLBundle.git vendor/bundles/Anchovy/CURLBundle
+        $ git submodule update --init
+
 Register the bundle and library namespaces in the `app/autoload.php` file:
 
     $loader->registerNamespaces(array(
@@ -40,19 +47,19 @@ Add the AnchovyCURLBundle to your application's kernel:
 
 ## Usage ##
 
-	Simple call:
+	// Simple call:
 
 	    public function indexAction() {
 
-			$this->get('anchovy.curl')->setURL('http://localhost')->execute();
+                    $this->get('anchovy.curl')->setURL('http://localhost')->execute();
 
 		}
 
-	Adding cURL option:
+	// Adding cURL option:
 
             $this->get('anchovy.curl')->setURL('http://localhost')->setOption('CURLOPT_NOBODY', FALSE)->execute();
 
-	Setting cURL opttions as array:
+	// Setting cURL opttions as array:
 
 		    $options = array(
 				'CURLOPT_NOBODY'=> TRUE,
@@ -63,12 +70,23 @@ Add the AnchovyCURLBundle to your application's kernel:
 
             $this->get('anchovy.curl')->setURL('http://localhost')->setOptions($options)->execute();
 
-	Getting cURL info:
+	// Getting cURL info:
 
-	     $info = $this->get('anchovy.curl')->setURL('http://localhost')->setOption('CURLOPT_NOBODY', TRUE)->execute()->getInfo();
+	      $this->get('anchovy.curl')->setURL('http://localhost')->setOption('CURLOPT_NOBODY', TRUE)->getInfo();
 
-        //Dump data
-	var_dump($info);
+        // OR
+
+              $curl = $this->get('anchovy.curl')->setURL('http://localhost');
+
+              $curl->execute();  //To execute
+
+              $curl->getInfo(); // To get the CURL info
+
+
+
+        // Dump data
+
+	var_dump($curl);
 
 ## Test ##
 

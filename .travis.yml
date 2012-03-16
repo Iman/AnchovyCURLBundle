@@ -1,7 +1,7 @@
 language: php
 
 php:
-#  - 5.3
+  - 5.3
   - 5.4
 
 before_script:
@@ -9,8 +9,10 @@ before_script:
   - php composer.phar install
 
 env:
+  - SYMFONY_VERSION=V2.0.9
   - SYMFONY_VERSION=v2.0.10
-  - SYMFONY_VERSION=origin/2.0
+  - SYMFONY_VERSION=v2.0.11
+#  - SYMFONY_VERSION=origin/2.0
   - SYMFONY_VERSION=origin/master
 
 script: phpunit

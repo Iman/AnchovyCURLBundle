@@ -4,9 +4,9 @@ php:
   - 5.3
   - 5.4
 
-before_script:
-  - wget http://getcomposer.org/composer.phar
-  - php composer.phar install
+#before_script:
+#  - wget http://getcomposer.org/composer.phar
+#  - php composer.phar install
 
 env:
   - SYMFONY_VERSION=V2.0.9

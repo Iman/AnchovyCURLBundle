@@ -5,13 +5,13 @@ php:
   - 5.4
   - 5.5
 
+before_script:
+  - wget http://getcomposer.org/composer.phar
+  - php composer.phar install
+
 env:
   - SYMFONY_VERSION=2.5.*
-  - SYMFONY_VERSION=dev-master
-
-before_script:
-  - composer require symfony/symfony:${SYMFONY_VERSION}
-  #- vendor/symfony-cmf/testing/bin/travis/phpcr_odm_doctrine_dbal.sh
+  - SYMFONY_VERSION=origin/master
 
 script: phpunit --coverage-text
 

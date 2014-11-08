@@ -24,7 +24,7 @@
     },
     "require-dev": {
         "symfony/framework-bundle": "~2.3",
-        "phpunit/phpunit": "~4.1"
+        "phpunit/phpunit": "4.*"
     },
     "autoload": {
         "psr-0": {

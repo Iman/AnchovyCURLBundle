@@ -23,7 +23,7 @@ env:
 #  - SYMFONY_VERSION=origin/2.0
   - SYMFONY_VERSION=origin/master
 
-#script: phpunit
+script: phpunit -c app/
 
 notifications:
   email:

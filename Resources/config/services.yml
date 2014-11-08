@@ -1,0 +1,17 @@
+parameters:
+    anchovy_curl:
+        return_transfer: true
+        follow_location: true
+        max_redirects: 5
+        timeout: 25
+        connect_timeout: 25
+        http_header:
+              expect: ""
+        crlf: true
+        ssl_version: 3
+        ssl_verify: 0
+
+services:
+        anchovy.curl:
+           class: Anchovy\CURLBundle\CURL\Curl
+           arguments: [%anchovy_curl%]

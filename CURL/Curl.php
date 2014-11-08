@@ -15,7 +15,16 @@
 
 namespace Anchovy\CURLBundle\CURL;
 
-class Curl extends AbstractCurl {
+class Curl extends AbstractCurl
+{
+
+    /**
+     * Configuration params
+     *
+     * @access private
+     * @var array
+     */
+    private static $params;
 
     /**
      * CURL Object
@@ -54,7 +63,10 @@ class Curl extends AbstractCurl {
      * @access public
      * @throws \InvalidArgumentException Curl not installed.
      */
-    public function __construct() {
+    public function __construct($params)
+    {
+
+        self::$params = $params;
 
         if (function_exists('curl_version')) {
 
@@ -72,7 +84,8 @@ class Curl extends AbstractCurl {
      * @param string $url URL i.e http://localhost
      * @return object \Anchovy\CURLBundle\CURL\Curl
      */
-    public function setURL($url) {
+    public function setURL($url)
+    {
         $this->url = $url;
         return $this;
     }
@@ -84,7 +97,8 @@ class Curl extends AbstractCurl {
      * @method getURL
      * @return string
      */
-    private function getURL() {
+    private function getURL()
+    {
         return $this->url;
     }
 
@@ -96,7 +110,8 @@ class Curl extends AbstractCurl {
      * @return mix
      * @throws \InvalidArgumentException Error: xxxxx and the Error no is: 000000
      */
-    public function execute() {
+    public function execute()
+    {
 
         curl_setopt_array(self::$instance, self::getOptions());
 
@@ -117,7 +132,8 @@ class Curl extends AbstractCurl {
      * @method setOption
      * @return object \Anchovy\CURLBundle\CURL\Curl
      */
-    public function setOption($key, $value) {
+    public function setOption($key, $value)
+    {
         $this->options[$key] = $value;
         return $this;
     }
@@ -139,7 +155,8 @@ class Curl extends AbstractCurl {
      * @method setOptions
      * @return object \Anchovy\CURLBundle\CURL\Curl
      */
-    public function setOptions(array $options = array()) {
+    public function setOptions(array $options = array())
+    {
         $this->options = $options;
         return $this;
     }
@@ -154,7 +171,8 @@ class Curl extends AbstractCurl {
      * @return \Anchovy\CURLBundle\CURL\Curl
      * @throws Exception
      */
-    public function setMethod($method = 'POST', array $param = array()) {
+    public function setMethod($method = 'POST', array $param = array())
+    {
 
         try {
             $postQuery = http_build_query($param);
@@ -175,7 +193,8 @@ class Curl extends AbstractCurl {
      * @method getInfo
      * @return array
      */
-    public function getInfo() {
+    public function getInfo()
+    {
 
         $this->execute();
         return curl_getinfo(self::$instance);
@@ -188,7 +207,8 @@ class Curl extends AbstractCurl {
      * @method getOptions
      * @return mix
      */
-    private function getOptions() {
+    private function getOptions()
+    {
 
         if (ini_get('safe_mode') || ini_get('open_basedir'))
             self::$curlFollowLocation = False;
@@ -198,15 +218,15 @@ class Curl extends AbstractCurl {
 
         $opts = array(
             CURLOPT_URL => $this->getURL(),
-            CURLOPT_HTTPHEADER => self::$curlHTTPHeader,
-            CURLOPT_RETURNTRANSFER => self::$curlReturnTransfer,
-            CURLOPT_MAXREDIRS => self::$curlmaxRedirects,
-            CURLOPT_TIMEOUT => self::$curlTimeout,
-            CURLOPT_CONNECTTIMEOUT => self::$curlConnectTTimeout,
-            CURLOPT_FOLLOWLOCATION => self::$curlFollowLocation,
-            CURLOPT_CRLF => self::$curlCRLF,
-            CURLOPT_SSLVERSION => self::$curlSSLVersion,
-            CURLOPT_SSL_VERIFYPEER => self::$curlSSLVerify
+            CURLOPT_HTTPHEADER => self::$params['http_header'],
+            CURLOPT_RETURNTRANSFER => self::$params['return_transfer'],
+            CURLOPT_MAXREDIRS => self::$params['max_redirects'],
+            CURLOPT_TIMEOUT => self::$params['timeout'],
+            CURLOPT_CONNECTTIMEOUT => self::$params['connect_timeout'],
+            CURLOPT_FOLLOWLOCATION => self::$params['follow_location'],
+            CURLOPT_CRLF => self::$params['crlf'],
+            CURLOPT_SSLVERSION => self::$params['ssl_version'],
+            CURLOPT_SSL_VERIFYPEER => self::$params['ssl_verify']
         );
 
         if (!empty($this->options)) {
@@ -224,7 +244,8 @@ class Curl extends AbstractCurl {
      * @method getError
      * @return mix
      */
-    private function getError() {
+    private function getError()
+    {
 
         if (curl_errno(self::$instance) > 0) {
             return array(
@@ -243,7 +264,8 @@ class Curl extends AbstractCurl {
      * @method isUrlHttps
      * @return boolean/string
      */
-    private static function isUrlHttps($url) {
+    private static function isUrlHttps($url)
+    {
         return preg_match('/^https:\/\//', $url);
     }
 
@@ -254,7 +276,8 @@ class Curl extends AbstractCurl {
      * @method __destruct
      * @return void
      */
-    final public function __destruct() {
+    final public function __destruct()
+    {
         if (is_resource(self::$instance)) {
             $this->url = null;
             curl_close(self::$instance);

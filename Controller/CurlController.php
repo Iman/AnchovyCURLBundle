@@ -23,7 +23,7 @@ class CurlController extends Controller {
     public function indexAction() {
 
         $curl = $this->get('anchovy.curl')
-                ->setURL('http://localhost')
+                ->setURL('http://localhost') //Change this to real URL address
                 ->setOption('CURLOPT_NOBODY', TRUE)
                 ->execute()
                 ->getInfo();

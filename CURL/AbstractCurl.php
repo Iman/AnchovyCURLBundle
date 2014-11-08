@@ -19,88 +19,8 @@ namespace Anchovy\CURLBundle\CURL;
  *
  * @abstract
  */
-abstract class AbstractCurl {
-
-    /**
-     * CURLOPT_RETURNTRANSFER
-     *
-     * @abstract
-     * @access protected
-     * @var boolean
-     */
-    protected static $curlReturnTransfer = TRUE;
-
-    /**
-     * CURLOPT_FOLLOWLOCATION
-     *
-     * @abstract
-     * @access protected
-     * @var boolean
-     */
-    protected static $curlFollowLocation = TRUE;
-
-    /**
-     * CURLOPT_MAXREDIRS
-     *
-     * @abstract
-     * @access protected
-     * @var int
-     */
-    protected static $curlmaxRedirects = 5;
-
-    /**
-     * CURLOPT_TIMEOUT
-     *
-     * @abstract
-     * @access protected
-     * @var int
-     */
-    protected static $curlTimeout = 25;
-
-    /**
-     * CURLOPT_CONNECTTIMEOUT
-     *
-     * @abstract
-     * @access protected
-     * @var int
-     */
-    protected static $curlConnectTTimeout = 25;
-
-    /**
-     * CURLOPT_HTTPHEADER
-     *
-     * @abstract
-     * @access protected
-     * @var array
-     */
-    protected static $curlHTTPHeader = array("Expect:");
-
-    /**
-     * CURLOPT_CRLF
-     *
-     * @abstract
-     * @access protected
-     * @var boolean
-     */
-    protected static $curlCRLF = TRUE;
-
-    /**
-     * CURLOPT_SSLVERSION
-     *
-     * @abstract
-     * @access protected
-     * @var int
-     */
-    protected static $curlSSLVersion = 3;
-
-    /**
-     * CURLOPT_SSL_VERIFYPEER
-     *
-     * @abstract
-     * @access protected
-     * @var boolean
-     */
-    protected static $curlSSLVerify = 0;
+abstract class AbstractCurl
+{
 
     /**
      * Options
@@ -138,7 +58,8 @@ abstract class AbstractCurl {
      * @method getInfo
      * @return array
      */
-    public function getInfo() {
+    public function getInfo()
+    {
         return array();
     }
 
@@ -153,7 +74,8 @@ abstract class AbstractCurl {
      * @method setOption
      * @return array
      */
-    public function setOption($key, $value) {
+    public function setOption($key, $value)
+    {
         return $this->options[$key] = $value;
     }
 
@@ -175,7 +97,8 @@ abstract class AbstractCurl {
      * @method setOptions
      * @return array
      */
-    public function setOptions(array $options = array()) {
+    public function setOptions(array $options = array())
+    {
         return $this->options = $options;
     }
 
@@ -189,7 +112,8 @@ abstract class AbstractCurl {
      * @method setMethod
      * @return object \Anchovy\CURLBundle\CURL\AbstractCurl
      */
-    public function setMethod($method = 'POST', array $param = array()) {
+    public function setMethod($method = 'POST', array $param = array())
+    {
         return $this;
     }
 

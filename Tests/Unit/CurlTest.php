@@ -16,7 +16,8 @@ namespace Anchovy\CURLBundle\Test\Unit;
 
 use Anchovy\CURLBundle\CURL\Curl;
 
-class CurlTest extends \PHPUnit_Framework_TestCase {
+class CurlTest extends \PHPUnit_Framework_TestCase
+{
 
     private $curl;
     private $mockUrl = 'http://foo.com';
@@ -41,17 +42,32 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         'upload_content_length' => 0,
         'starttransfer_time' => 0.863111,
         'redirect_time' => 0,
-        'certinfo' => Array(),
+        'certinfo' => array(),
     );
+
+    private $dummyConfigs = array(
+        'return_transfer' => true,
+        'follow_location' => true,
+        'max_redirects' => 5,
+        'timeout' => 25,
+        'connect_timeout' => 25,
+        'http_header' => array(
+            'expect' => ""),
+        'crlf' => true,
+        'ssl_version' => 3,
+        'ssl_verify' => 0);
+
     private $simpleHtmplFixture;
 
-    protected function setUp() {
+    protected function setUp()
+    {
 
         $this->simpleHtmplFixture = file_get_contents(__DIR__ . '/../Fixtures/simpleHtml.html');
-        $this->curl = new Curl();
+        $this->curl = new Curl($this->dummyConfigs);
     }
 
-    public function testSetURL() {
+    public function testSetURL()
+    {
 
         $this->curl->setUrl($this->mockUrl);
 
@@ -62,7 +78,8 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($content, $this->mockUrl);
     }
 
-    public function testGetUrl() {
+    public function testGetUrl()
+    {
 
         $prob = new \ReflectionProperty($this->curl, 'url');
         $prob->setAccessible(true);
@@ -75,61 +92,66 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($content, $this->mockUrl);
     }
 
-    public function testExecute() {
+    public function testExecute()
+    {
 
-        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl');
+        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('execute'), array(), '', FALSE, FALSE);
         $stub->expects($this->any())
-                ->method('execute')
-                ->will($this->returnValue($this->simpleHtmplFixture));
+            ->method('execute')
+            ->will($this->returnValue($this->simpleHtmplFixture));
 
         $this->assertEquals($this->simpleHtmplFixture, $stub->execute());
     }
 
-    public function testGetInfoWithExecute() {
+    public function testGetInfoWithExecute()
+    {
 
 
-        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('execute', 'getInfo'), array(), '', FALSE);
+        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('execute', 'getInfo'), array(), '', FALSE, FALSE);
 
         //To stub channing method
         $stub->expects($this->any())->method('getInfo')
-                ->will($this->returnValue($this->mockInfo));
+            ->will($this->returnValue($this->mockInfo));
 
         $stub->expects($this->any())->method($this->anything())
-                ->will($this->returnValue($stub));
+            ->will($this->returnValue($stub));
 
         $this->assertEquals($this->mockInfo, $stub->getInfo());
     }
 
-    public function testExecuteAsObject() {
+    public function testExecuteAsObject()
+    {
 
 
-        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('execute'), array(), '', FALSE);
+        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('execute'), array(), '', FALSE, FALSE);
 
         $stub->expects($this->any())->method($this->anything())
-                ->will($this->returnValue($stub));
+            ->will($this->returnValue($stub));
 
         $this->assertInternalType('object', $stub->execute());
     }
 
-    public function testSetMethod() {
+    public function testSetMethod()
+    {
 
-        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl');
+        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('setMethod'), array(), '', FALSE, FALSE);
 
         foreach (array('POST', 'PUT', 'DELETE') as $key => $val) {
             $stub->expects($this->any())
-                    ->method('setMethod')
-                    ->will($this->returnValue($this->curl->setmethod($key, array('Filed' => 'Value'))));
+                ->method('setMethod')
+                ->will($this->returnValue($this->curl->setmethod($key, array('Filed' => 'Value'))));
 
             $this->assertInternalType('object', $stub->setMethod($val, array('Filed' => 'Value')));
         }
     }
 
-    public function testGetInfo() {
+    public function testGetInfo()
+    {
 
-        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl');
+        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('getInfo'), array(), '', FALSE, FALSE);
         $stub->expects($this->once())
-                ->method('getInfo')
-                ->will($this->returnValue($this->mockInfo));
+            ->method('getInfo')
+            ->will($this->returnValue($this->mockInfo));
 
         $this->assertEquals($this->mockInfo, $stub->getInfo());
     }
@@ -138,9 +160,10 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
      * @expectedException        InvalidArgumentException
      * @expectedExceptionMessage Error: <url> malformed and the Error no is: 3
      */
-    public function testGetError() {
+    public function testGetError()
+    {
 
-        $curl = new Curl();
+        $curl = new Curl($this->dummyConfigs);
         $curl->setURL(null)->execute();
     }
 
@@ -148,13 +171,15 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
      * @expectedException        InvalidArgumentException
      * @expectedExceptionMessage Error: <url> malformed and the Error no is: 3
      */
-    public function testChainedGetInfoWithError() {
+    public function testChainedGetInfoWithError()
+    {
 
-        $curl = new Curl();
+        $curl = new Curl($this->dummyConfigs);
         $curl->setURL(null)->getInfo();
     }
 
-    public function testGetErrorReturnFalse() {
+    public function testGetErrorReturnFalse()
+    {
 
         $method = new \ReflectionMethod($this->curl, 'getError');
         $method->setAccessible(true);
@@ -163,7 +188,8 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($content);
     }
 
-    public function testSetOption() {
+    public function testSetOption()
+    {
 
         $this->curl->setOption('CURLOPT_VERBOSE', True);
 
@@ -174,7 +200,8 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $this->assertContains(CURLOPT_VERBOSE, $content);
     }
 
-    public function testSetOptions() {
+    public function testSetOptions()
+    {
 
         $options = array(
             'CURLOPT_VERBOSE' => True,
@@ -192,7 +219,8 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $this->assertContains(array(CURLOPT_VERBOSE, CURLOPT_NOBODY, CURLOPT_BINARYTRANSFER), $content);
     }
 
-    public function testOverrideOptions() {
+    public function testOverrideOptions()
+    {
 
         $options = array(
             'CURLOPT_RETURNTRANSFER' => True,
@@ -206,7 +234,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
 
         $content = $method->invoke($this->curl);
 
-        $_curl = new Curl();
+        $_curl = new Curl($this->dummyConfigs);
         $_curl->setURL('http://dummy.org');
 
         $actual = $method->invoke($_curl);
@@ -215,7 +243,8 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($content[CURLOPT_HTTPHEADER][0], "Expect:Dummy");
     }
 
-    public function testOverrideOption() {
+    public function testOverrideOption()
+    {
 
         $this->curl->setOption('CURLOPT_HTTPHEADER', array("Expect:Bar"));
 
@@ -223,7 +252,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $method->setAccessible(true);
         $content = $method->invoke($this->curl);
 
-        $_curl = new Curl();
+        $_curl = new Curl($this->dummyConfigs);
         $_curl->setURL('http://bar_foo.com');
 
         $actual = $method->invoke($_curl);
@@ -233,7 +262,8 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals("Expect:Bar", $content[CURLOPT_HTTPHEADER][0]);
     }
 
-    public function testIsUrlHttps() {
+    public function testIsUrlHttps()
+    {
         $method = new \ReflectionMethod($this->curl, 'isUrlHttps');
         $method->setAccessible(true);
 
@@ -244,7 +274,8 @@ class CurlTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($withSSL, 1);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->curl->__destruct();
     }
 

@@ -4,27 +4,33 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  - 5.6
   - hhvm
 
-#env:
-#  - SYMFONY_VERSION=V2.5.6
-#  - SYMFONY_VERSION=origin/master
-
 env:
-  - SYMFONY_VERSION=2.4.*
-  - SYMFONY_VERSION=2.5.*
-  - SYMFONY_VERSION=dev-master
-
-before_script:
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar require symfony/framework-bundle:${SYMFONY_VERSION}
-
-script: phpunit
+  - SYMFONY_VERSION="2.3.*"
 
 matrix:
   allow_failures:
     - php: hhvm
-    - env: SYMFONY_VERSION=dev-master
+    - env: SYMFONY_VERSION="dev-master" MIN_STABILITY="dev"
+  include:
+    - php: 5.5
+      env: SYMFONY_VERSION="2.4.*" SENSIO_FRAMEWORK_EXTRA_BUNDLE_VERSION="3.*"
+    - php: 5.5
+      env: SYMFONY_VERSION="2.5.*" SENSIO_FRAMEWORK_EXTRA_BUNDLE_VERSION="3.*"
+    - php: 5.5
+      env: SYMFONY_VERSION="dev-master" MIN_STABILITY="dev"
+
+install:
+  - sh travis_install_dependencies.sh
+
+before_script:
+  - mkdir -p build/logs
+
+script:
+  - phpunit --coverage-clover build/logs/clover.xml
+  - sh -c 'if [ "${TRAVIS_PHP_VERSION}" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
 
 notifications:
   email:

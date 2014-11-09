@@ -17,7 +17,7 @@ env:
   - SYMFONY_VERSION=2.5.*
   - SYMFONY_VERSION=dev-master
 
-script: phpunit -c app
+script: phpunit
 
 matrix:
   allow_failures:

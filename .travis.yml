@@ -23,7 +23,7 @@ matrix:
       env: SYMFONY_VERSION="dev-master" MIN_STABILITY="dev"
 
 install:
-  - sh travis_install_dependencies.sh
+  - sh travis_build.sh
 
 before_script:
   - mkdir -p build/logs
@@ -34,5 +34,5 @@ script:
 
 notifications:
   email:
-#    - iman@imanpage.com
+    - iman@imanpage.com
 

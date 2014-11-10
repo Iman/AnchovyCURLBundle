@@ -19,9 +19,9 @@
         </testsuite>
     </testsuites>
 
-    <php>
+    <!--php>
         <server name="KERNEL_DIR" value="./../../../../app/" />
-    </php>
+    </php-->
 
     <filter>
 

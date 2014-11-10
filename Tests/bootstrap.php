@@ -1,35 +1,16 @@
 <?php
 
 /*
- * This file is part of the AnchovyCURLBundle package.
+ * this file is part of the symfony package.
  *
- * (c)  Iman Samizadeh <http://github.com/Iman/AnchovyCURLBundle>
+ * (c) fabien potencier <fabien.potencier@symfony-project.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * for the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package       Anchovy
- * @subpackage    CURLBundle
- * @author        Iman Samizadeh <iman@imanpage.com>  http://imanpage.com
- * @credit        http://pooteeweet.org/blog/2046 And https://github.com/raulfraile/LadybugBundle And https://raw.github.com/wowo/WowoNewsletterBundle/master/Tes
  */
 
-
-//borrowed from FOSUserBundle
-if (file_exists($file = __DIR__ . '/../vendor/.composer/autoload.php')) {
-    $autoload = require_once $file;
-} else {
-    throw new RuntimeException('Install dependencies to run test suite.');
+if (file_exists($file = __DIR__.'/autoload.php')) {
+    require_once $file;
+} elseif (file_exists($file = __DIR__.'/autoload.php.dist')) {
+    require_once $file;
 }
-
-spl_autoload_register(function($class) {
-            if (0 === strpos($class, 'Anchovy\\CURLBundle\\')) {
-                $path = __DIR__ . '/../' . implode('/', array_slice(explode('\\', $class), 2)) . '.php';
-                if (!stream_resolve_include_path($path)) {
-                    return false;
-                }
-                require_once $path;
-                return true;
-            }
-        });
-?>

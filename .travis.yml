@@ -14,7 +14,9 @@ matrix:
     - php: hhvm
 
 env:
-  - SYMFONY_VERSION=2.3.* SENSIO_FRAMEWORK_EXTRA_VERSION="~3.0"
+  - SYMFONY_VERSION=2.3.*
+  - SYMFONY_VERSION=2.4.*
+  - SYMFONY_VERSION=2.5.*
 
 before_script:
   - composer require symfony/symfony:${SYMFONY_VERSION}

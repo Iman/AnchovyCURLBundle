@@ -51,13 +51,6 @@ class Curl extends AbstractCurl
     private $options;
 
     /**
-     * Errors
-     *
-     * @var array
-     */
-    private $error = array();
-
-    /**
      * Constructor
      *
      * @access public

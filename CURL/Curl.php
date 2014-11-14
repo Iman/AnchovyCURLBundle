@@ -182,7 +182,7 @@ class Curl extends AbstractCurl
             return $this;
         } catch (Exception $exc) {
 
-            throw $exc;
+  			return 'Caught exception: ',  $exc->getMessage(), "\n";
         }
     }
 

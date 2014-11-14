@@ -1,39 +1,37 @@
 {
-    "name": "anchovy/curl-bundle",
-    "type": "symfony-bundle",
-    "description": "This bundle provides a simple OOP interfaces for cURL php wrapper.",
-    "keywords": [
-        "cURL",
-        "PHP cURL",
-        "Symfony2 cURL"
-    ],
-    "repository": "https://github.com/Iman/AnchovyCURLBundle",
-    "homepage": "http://www.imanpage.com/",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Iman Samizadeh",
-            "email": "iman@imanpage.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=5.3.2",
-        "symfony/framework-bundle": "~2.3"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~4.1",
-        "symfony/symfony": "~2.3"
-    },
-    "autoload": {
-        "psr-0": {
-            "Anchovy\\CURLBundle\\": ""
-        }
-    },
-    "target-dir": "Anchovy/CURLBundle",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.x-dev"
-        }
-    }
+   "name":"anchovy/curl-bundle",
+   "type":"symfony-bundle",
+   "description":"This bundle provides a simple OOP interfaces for cURL php wrapper.",
+   "keywords":[
+      "cURL",
+      "PHP cURL",
+      "Symfony2 cURL"
+   ],
+   "homepage":"http://www.imanpage.com/",
+   "license":"MIT",
+   "authors":[
+      {
+         "name":"Iman Samizadeh",
+         "email":"iman@imanpage.com"
+      }
+   ],
+   "require":{
+      "php":">=5.3.2",
+      "symfony/framework-bundle":"~2.3"
+   },
+   "require-dev":{
+      "phpunit/phpunit":"~4.1",
+      "symfony/symfony":"~2.3"
+   },
+   "autoload":{
+      "psr-0":{
+         "Anchovy\\CURLBundle\\":""
+      }
+   },
+   "target-dir":"Anchovy/CURLBundle",
+   "extra":{
+      "branch-alias":{
+         "dev-master":"2.x-dev"
+      }
+   }
 }

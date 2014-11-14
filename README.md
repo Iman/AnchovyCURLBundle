@@ -14,7 +14,7 @@ Please visit [imanpage.com](http://imanpage.com) for more details.
 
 ## Installation ##
 
-[Read the documentation for master] (https://github.com/Iman/AnchovyCURLBundle/tree/master)
+[Read the documentation for master] (https://github.com/Iman/AnchovyCURLBundle/blob/master/Resources/doc/master.md)
 
 [Read the documentation for V1.00 (Symfony 2.0.x)](https://github.com/Iman/AnchovyCURLBundle/tree/v2.0.x)
 

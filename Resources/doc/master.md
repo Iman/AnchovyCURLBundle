@@ -22,7 +22,7 @@ Require the `anchovy/curl-bundle package` in your composer.json and update your 
     {
         "require": {
            ...
-           "anchovy/curl-bundle:": "dev-master"
+           "anchovy/curl-bundle": "dev-master"
            ...
         }
     }

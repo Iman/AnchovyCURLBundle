@@ -48,7 +48,7 @@ class Curl extends AbstractCurl
      * @access private
      * @var array
      */
-    private $options = array();
+    private $options;
 
     /**
      * Constructor
@@ -60,6 +60,8 @@ class Curl extends AbstractCurl
     {
 
         self::$params = $params;
+        
+        $this->options = array();
 
         if (function_exists('curl_version')) {
 
@@ -173,7 +175,7 @@ class Curl extends AbstractCurl
             curl_setopt(self::$instance, CURLOPT_POSTFIELDS, $postQuery);
 
             return $this;
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
 
   			echo "Caught exception: ".  $exc->getMessage(). "\n";
         }

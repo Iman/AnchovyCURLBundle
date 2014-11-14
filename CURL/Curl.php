@@ -48,7 +48,7 @@ class Curl extends AbstractCurl
      * @access private
      * @var array
      */
-    private $options;
+    private $options = array();
 
     /**
      * Constructor
@@ -175,7 +175,7 @@ class Curl extends AbstractCurl
             return $this;
         } catch (Exception $exc) {
 
-  			return 'Caught exception: ',  $exc->getMessage(), "\n";
+  			echo "Caught exception: ".  $exc->getMessage(). "\n";
         }
     }
 

@@ -1,5 +1,5 @@
 {
-   "name":"anchovy/curl-bundle",
+   "name":"fanbookz/curl-bundle",
    "type":"symfony-bundle",
    "description":"This bundle provides a simple OOP interfaces for cURL php wrapper.",
    "keywords":[

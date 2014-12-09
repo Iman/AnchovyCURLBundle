@@ -107,13 +107,13 @@ class Curl extends AbstractCurl
      */
     public function execute()
     {
-
         curl_setopt_array(self::$instance, self::getOptions());
 
         if (!$curl = curl_exec(self::$instance)) {
             $error = self::getError();
             throw new \InvalidArgumentException("Error: {$error['error']} and the Error no is: {$error['error_no']} ");
         }
+
         return $curl;
     }
 
@@ -190,8 +190,6 @@ class Curl extends AbstractCurl
      */
     public function getInfo()
     {
-
-        $this->execute();
         return curl_getinfo(self::$instance);
     }
 

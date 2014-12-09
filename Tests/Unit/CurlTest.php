@@ -105,16 +105,11 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInfoWithExecute()
     {
-
-
-        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('execute', 'getInfo'), array(), '', FALSE, FALSE);
+        $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('getInfo'), array(), '', FALSE, FALSE);
 
         //To stub channing method
         $stub->expects($this->any())->method('getInfo')
             ->will($this->returnValue($this->mockInfo));
-
-        $stub->expects($this->any())->method($this->anything())
-            ->will($this->returnValue($stub));
 
         $this->assertEquals($this->mockInfo, $stub->getInfo());
     }

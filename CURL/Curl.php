@@ -202,10 +202,6 @@ class Curl extends AbstractCurl
      */
     private function getOptions()
     {
-
-        if (ini_get('safe_mode') || ini_get('open_basedir'))
-            self::$curlFollowLocation = False;
-
         $opts = array(
             CURLOPT_URL => $this->getURL(),
             CURLOPT_HTTPHEADER => self::$params['http_header'],

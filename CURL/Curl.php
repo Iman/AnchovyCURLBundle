@@ -212,7 +212,6 @@ class Curl extends AbstractCurl
             CURLOPT_FOLLOWLOCATION => self::$params['follow_location'],
             CURLOPT_CRLF => self::$params['crlf'],
             CURLOPT_SSLVERSION => self::$params['ssl_version'],
-            CURLOPT_SSL_VERIFYPEER => self::$params['ssl_verify']
         );
 
         if (!empty($this->options)) {

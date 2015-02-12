@@ -60,7 +60,7 @@ class Curl extends AbstractCurl
     {
 
         self::$params = $params;
-        
+
         $this->options = array();
 
         if (function_exists('curl_version')) {
@@ -208,9 +208,6 @@ class Curl extends AbstractCurl
         if (ini_get('safe_mode') || ini_get('open_basedir'))
             self::$curlFollowLocation = False;
 
-        if (self::isUrlHttps($this->getURL()))
-            self::$curlSSLVerify = True;
-
         $opts = array(
             CURLOPT_URL => $this->getURL(),
             CURLOPT_HTTPHEADER => self::$params['http_header'],
@@ -249,19 +246,6 @@ class Curl extends AbstractCurl
             );
         }
         return false;
-    }
-
-    /**
-     * Validating/Checking the HTTP or HTTPS from given URL
-     *
-     * @param string $url
-     * @access private
-     * @method isUrlHttps
-     * @return boolean/string
-     */
-    private static function isUrlHttps($url)
-    {
-        return preg_match('/^https:\/\//', $url);
     }
 
     /**

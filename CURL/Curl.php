@@ -17,22 +17,21 @@ namespace Anchovy\CURLBundle\CURL;
 
 class Curl extends AbstractCurl
 {
-
     /**
      * Configuration params
      *
-     * @access private
+     * @access protected
      * @var array
      */
-    private static $params;
+    protected $params = [];
 
     /**
      * CURL Object
      *
-     * @access private
-     * @var object
+     * @access protected
+     * @var resource
      */
-    private static $instance;
+    protected $instance;
 
     /**
      * URL address
@@ -45,10 +44,10 @@ class Curl extends AbstractCurl
     /**
      * cURL array options
      *
-     * @access private
+     * @access protected
      * @var array
      */
-    private $options;
+    protected $options = [];
 
     /**
      * Constructor
@@ -58,17 +57,12 @@ class Curl extends AbstractCurl
      */
     public function __construct($params)
     {
-
-        self::$params = $params;
-        
-        $this->options = array();
-
-        if (function_exists('curl_version')) {
-
-            self::$instance = curl_init();
-        } else {
+        if (!function_exists('curl_version')) {
             throw new \InvalidArgumentException("Curl not installed.");
         }
+
+        $this->params = $params;
+        $this->instance = curl_init();
     }
 
     /**
@@ -76,7 +70,7 @@ class Curl extends AbstractCurl
      *
      * @access public
      * @method setURL
-     * @param string $url URL i.e http://localhost
+     * @param string $url URL e.g. http://localhost
      * @return object \Anchovy\CURLBundle\CURL\Curl
      */
     public function setURL($url)
@@ -88,11 +82,11 @@ class Curl extends AbstractCurl
     /**
      * Getting the URL
      *
-     * @access private
+     * @access protected
      * @method getURL
      * @return string
      */
-    private function getURL()
+    protected function getURL()
     {
         return $this->url;
     }
@@ -107,13 +101,13 @@ class Curl extends AbstractCurl
      */
     public function execute()
     {
+        curl_setopt_array($this->instance, $this->getOptions());
 
-        curl_setopt_array(self::$instance, self::getOptions());
-
-        if (!$curl = curl_exec(self::$instance)) {
-            $error = self::getError();
+        if (!$curl = curl_exec($this->instance)) {
+            $error = $this->getError();
             throw new \InvalidArgumentException("Error: {$error['error']} and the Error no is: {$error['error_no']} ");
         }
+
         return $curl;
     }
 
@@ -171,8 +165,8 @@ class Curl extends AbstractCurl
 
         try {
             $postQuery = http_build_query($param);
-            curl_setopt(self::$instance, CURLOPT_CUSTOMREQUEST, strtoupper($method));
-            curl_setopt(self::$instance, CURLOPT_POSTFIELDS, $postQuery);
+            curl_setopt($this->instance, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+            curl_setopt($this->instance, CURLOPT_POSTFIELDS, $postQuery);
 
             return $this;
         } catch (\Exception $exc) {
@@ -190,38 +184,28 @@ class Curl extends AbstractCurl
      */
     public function getInfo()
     {
-
-        $this->execute();
-        return curl_getinfo(self::$instance);
+        return curl_getinfo($this->instance);
     }
 
     /**
      * Getting all the available options
      *
-     * @access private
+     * @access protected
      * @method getOptions
      * @return mix
      */
-    private function getOptions()
+    protected function getOptions()
     {
-
-        if (ini_get('safe_mode') || ini_get('open_basedir'))
-            self::$curlFollowLocation = False;
-
-        if (self::isUrlHttps($this->getURL()))
-            self::$curlSSLVerify = True;
-
         $opts = array(
             CURLOPT_URL => $this->getURL(),
-            CURLOPT_HTTPHEADER => self::$params['http_header'],
-            CURLOPT_RETURNTRANSFER => self::$params['return_transfer'],
-            CURLOPT_MAXREDIRS => self::$params['max_redirects'],
-            CURLOPT_TIMEOUT => self::$params['timeout'],
-            CURLOPT_CONNECTTIMEOUT => self::$params['connect_timeout'],
-            CURLOPT_FOLLOWLOCATION => self::$params['follow_location'],
-            CURLOPT_CRLF => self::$params['crlf'],
-            CURLOPT_SSLVERSION => self::$params['ssl_version'],
-            CURLOPT_SSL_VERIFYPEER => self::$params['ssl_verify']
+            CURLOPT_HTTPHEADER => $this->params['http_header'],
+            CURLOPT_RETURNTRANSFER => $this->params['return_transfer'],
+            CURLOPT_MAXREDIRS => $this->params['max_redirects'],
+            CURLOPT_TIMEOUT => $this->params['timeout'],
+            CURLOPT_CONNECTTIMEOUT => $this->params['connect_timeout'],
+            CURLOPT_FOLLOWLOCATION => $this->params['follow_location'],
+            CURLOPT_CRLF => $this->params['crlf'],
+            CURLOPT_SSLVERSION => $this->params['ssl_version'],
         );
 
         if (!empty($this->options)) {
@@ -235,17 +219,16 @@ class Curl extends AbstractCurl
     /**
      * Getting the errors
      *
-     * @access private
+     * @access protected
      * @method getError
      * @return mix
      */
-    private function getError()
+    protected function getError()
     {
-
-        if (curl_errno(self::$instance) > 0) {
+        if (curl_errno($this->instance) > 0) {
             return array(
-                'error_no' => curl_errno(self::$instance),
-                'error' => curl_error(self::$instance)
+                'error_no' => curl_errno($this->instance),
+                'error' => curl_error($this->instance)
             );
         }
         return false;
@@ -255,11 +238,11 @@ class Curl extends AbstractCurl
      * Validating/Checking the HTTP or HTTPS from given URL
      *
      * @param string $url
-     * @access private
+     * @access protected
      * @method isUrlHttps
      * @return boolean/string
      */
-    private static function isUrlHttps($url)
+    protected static function isUrlHttps($url)
     {
         return preg_match('/^https:\/\//', $url);
     }
@@ -273,9 +256,9 @@ class Curl extends AbstractCurl
      */
     final public function __destruct()
     {
-        if (is_resource(self::$instance)) {
+        if (is_resource($this->instance)) {
             $this->url = null;
-            curl_close(self::$instance);
+            curl_close($this->instance);
         }
     }
 

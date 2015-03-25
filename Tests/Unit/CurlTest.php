@@ -262,18 +262,6 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("Expect:Bar", $content[CURLOPT_HTTPHEADER][0]);
     }
 
-    public function testIsUrlHttps()
-    {
-        $method = new \ReflectionMethod($this->curl, 'isUrlHttps');
-        $method->setAccessible(true);
-
-        $withoutSSL = $method->invokeArgs($this->curl, array('http://foo.net/text.php?id=124'));
-        $withSSL = $method->invokeArgs($this->curl, array('https://boo.com/dummy/123'));
-
-        $this->assertEquals($withoutSSL, 0);
-        $this->assertEquals($withSSL, 1);
-    }
-
     protected function tearDown()
     {
         $this->curl->__destruct();

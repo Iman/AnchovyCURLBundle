@@ -21,16 +21,16 @@ matrix:
 
 env:
   - SYMFONY_VERSION=2.3.*
-  - SYMFONY_VERSION=2.4.*
+  - SYMFONY_V ERSION=2.4.*
   - SYMFONY_VERSION=2.5.*
   - SYMFONY_VERSION=2.6.*
 
 before_script:
-  - composer selfupdate
-  - bin/composer selfupdate
+  - composer self-update
   - composer require symfony/symfony:${SYMFONY_VERSION}
 
 install:
+  - composer self-update
   - composer install --no-interaction --dev --prefer-source
 
 script: phpunit

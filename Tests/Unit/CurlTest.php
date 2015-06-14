@@ -97,8 +97,8 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
         $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('execute'), array(), '', FALSE, FALSE);
         $stub->expects($this->any())
-            ->method('execute')
-            ->will($this->returnValue($this->simpleHtmplFixture));
+        ->method('execute')
+        ->will($this->returnValue($this->simpleHtmplFixture));
 
         $this->assertEquals($this->simpleHtmplFixture, $stub->execute());
     }
@@ -111,10 +111,10 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
         //To stub channing method
         $stub->expects($this->any())->method('getInfo')
-            ->will($this->returnValue($this->mockInfo));
+        ->will($this->returnValue($this->mockInfo));
 
         $stub->expects($this->any())->method($this->anything())
-            ->will($this->returnValue($stub));
+        ->will($this->returnValue($stub));
 
         $this->assertEquals($this->mockInfo, $stub->getInfo());
     }
@@ -126,7 +126,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('execute'), array(), '', FALSE, FALSE);
 
         $stub->expects($this->any())->method($this->anything())
-            ->will($this->returnValue($stub));
+        ->will($this->returnValue($stub));
 
         $this->assertInternalType('object', $stub->execute());
     }
@@ -138,8 +138,8 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
         foreach (array('POST', 'PUT', 'DELETE') as $key => $val) {
             $stub->expects($this->any())
-                ->method('setMethod')
-                ->will($this->returnValue($this->curl->setmethod($key, array('Filed' => 'Value'))));
+            ->method('setMethod')
+            ->will($this->returnValue($this->curl->setmethod($key, array('Filed' => 'Value'))));
 
             $this->assertInternalType('object', $stub->setMethod($val, array('Filed' => 'Value')));
         }
@@ -150,8 +150,8 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
         $stub = $this->getMock('Anchovy\CURLBundle\CURL\Curl', array('getInfo'), array(), '', FALSE, FALSE);
         $stub->expects($this->once())
-            ->method('getInfo')
-            ->will($this->returnValue($this->mockInfo));
+        ->method('getInfo')
+        ->will($this->returnValue($this->mockInfo));
 
         $this->assertEquals($this->mockInfo, $stub->getInfo());
     }
@@ -175,7 +175,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     {
 
         $curl = new Curl($this->dummyConfigs);
-        $curl->setURL(null)->getInfo();
+        $curl->setURL(null)->execute()->getInfo();
     }
 
     public function testGetErrorReturnFalse()

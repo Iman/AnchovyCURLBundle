@@ -15,6 +15,8 @@
 
 namespace Anchovy\CURLBundle\CURL;
 
+use Anchovy\CURLBundle\Exception\CurlException;
+
 class Curl extends AbstractCurl
 {
     /**
@@ -105,7 +107,7 @@ class Curl extends AbstractCurl
 
         if (!$curl = curl_exec($this->instance)) {
             $error = $this->getError();
-            throw new \InvalidArgumentException("Error: {$error['error']} and the Error no is: {$error['error_no']} ");
+            throw new CurlException($error['error'],$error['error_no']);
         }
 
         return $curl;

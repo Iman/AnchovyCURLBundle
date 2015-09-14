@@ -12,7 +12,7 @@ class CurlException extends \InvalidArgumentException
         $this->curlMessage = $message;
         $this->curlErrorCode = $code;
 
-        parent::__construct("Error: {$message} and the Error no is: {$code} ");
+        parent::__construct("Error: {$message} and the Error no is: {$code} ", $code, $previous);
     }
 
     /**

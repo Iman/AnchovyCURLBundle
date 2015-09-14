@@ -107,7 +107,7 @@ class Curl extends AbstractCurl
 
         if (!$curl = curl_exec($this->instance)) {
             $error = $this->getError();
-            throw new CurlException($error['error'],$error['error_no']);
+            throw new CurlException($error['error'], $error['error_no']);
         }
 
         return $curl;

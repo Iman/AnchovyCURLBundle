@@ -11,6 +11,7 @@ Please visit [imanpage.com](http://imanpage.com) for more details.
 
 [![Build Status](https://secure.travis-ci.org/Iman/AnchovyCURLBundle.png)](http://travis-ci.org/Iman/AnchovyCURLBundle)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/1d0382f2-735f-47f9-8184-15f2d146fbe5/mini.png)](https://insight.sensiolabs.com/projects/1d0382f2-735f-47f9-8184-15f2d146fbe5)
+[![PHPPackages Rank](http://phppackages.org/p/anchovy/curl-bundle/badge/rank.svg)](http://phppackages.org/p/anchovy/curl-bundle)
 
 
 ## Installation ##

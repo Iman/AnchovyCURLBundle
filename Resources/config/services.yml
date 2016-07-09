@@ -8,7 +8,7 @@ parameters:
         http_header:
               expect: ""
         crlf: true
-        ssl_version: 3
+        ssl_version: 4
         ssl_verify: 0
 
 services:
